@@ -1,4 +1,5 @@
 #! /usr/bin/python
+# coding=utf-8
 
 from BeautifulSoup import BeautifulSoup
 
@@ -53,32 +54,28 @@ class Parser:
             soup  = BeautifulSoup(html)
             ul    = soup.body.ul
             pre   = ul.pre
-            print pre.contents[0]
-            return True, pre.contents[0]
+            doc   = self.traverse(pre.contents[0])
+            return True, doc
         except:
             print 'we will sleep 5000ms, please wait'
             sleep(5)
             try:
+                #ugly
+                html  = robot.download_problem(runid)
                 soup  = BeautifulSoup(html)
                 ul    = soup.body.ul
                 pre   = ul.pre
-                return True, pre
+                doc = self.traverse(pre.contents[0])
+                return True, doc
             except:
                 print 'sorry something error with problem: ', id
                 return False, ""
         pass
 
-    def filter(self, html):
-        pass
-    
-    def h3(self, tag):
-        return '<h3>#{' + tag + '}</h3>'
-    
-    def parse_name(self, html):
-        return self.filter(html)
-    
-    def parse_statement(self, html):
-        return filter(html)
-
-    def parse(self, html):
-        pass
+    def traverse(self, doc):
+        doc = doc.replace('&lt;', '<')
+        doc = doc.replace('&gt;', '>')
+        doc = doc.replace('&#34;', '\"')
+        doc = doc.replace('&#39;', '\'')
+        doc = doc.replace('&#38;', '&')
+        return doc

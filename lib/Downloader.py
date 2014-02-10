@@ -1,9 +1,9 @@
 #! /usr/bin/python
+# coding=utf-8
 
 import urllib
 import urllib2
 import cookielib
-
 
 class Downloader:
     def __init__(self, account):
